@@ -1,0 +1,22 @@
+{
+    "name": "MessageConstructor",
+    "version": "1.0.0",
+    "description": "A library for constructing timestamped messages with variable arguments in the format @#<timestamp>#&arg1&arg2&...&argN#@",
+    "keywords": ["message", "timestamp", "formatting", "serial", "communication"],
+    "authors": [
+        {
+            "name": "Arduino Community",
+            "maintainer": true
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/your-username/message-constructor.git"
+    },
+    "license": "MIT",
+    "examples": [
+        "example_arduino.ino"
+    ],
+    "frameworks": "*",
+    "platforms": "*"
+}
