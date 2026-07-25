@@ -1,5 +1,7 @@
-```
-# Build artifacts
+# Build output
+build/
+.pio/
+.platformio/
 *.o
 *.obj
 *.a
@@ -8,65 +10,25 @@
 *.dll
 *.exe
 *.out
-
-# PlatformIO specific
-.piolibdeps/
-.platformio/
 *.elf
 *.bin
 *.hex
 *.map
+/test_message_constructor
 
-# Arduino/Embedded
-*.ino.cpp
-*.ino.partitions.bin
-*.partition-table.bin
-
-# Dependencies
-node_modules/
-lib/
-
-# IDE/Editor
+# IDE and editor
 .vscode/
 .idea/
 *.swp
 *.swo
 *.tmp
 
-# Logs
+# Logs and environment
 *.log
-
-# Environment
 .env
 .env.local
 *.env.*
 
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# Python (if applicable)
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage*
-.nosercov
-
-# Compressed
-*.zip
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-*.gz
-*.rar
-*.7z
-```
+# OS metadata
+.DS_Store
+Thumbs.db
