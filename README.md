@@ -1,52 +1,58 @@
-# Message Constructor
+# MessageConstructor
 
-The Message Constructor module provides a convenient way to construct messages with a timestamp and a variable number of arguments concatenated with "&" separator.
+A small header-only library for creating timestamped messages for Arduino serial links and native C++ applications.
 
-## Usage
+## Message format
 
-### Include the Library
+```text
+@#<timestamp>#&field1&field2#@
+```
 
-1. Include the `message_constructor.h` header file in your Arduino sketch.
+The timestamp is elapsed milliseconds since startup. Reserved characters inside fields are escaped with `\\`:
 
-#include "message_constructor.h"
+- `&` becomes `\\&`
+- `#` becomes `\\#`
+- `\\` becomes `\\\\`
 
+Example:
 
-2. Instantiate the MessageConstructor Object
-   Instantiate an object of the MessageConstructor class.
-   MessageConstructor messageConstructor;
+```cpp
+#include <MessageConstructor.h>
 
-3. Construct Messages
-Use the constructMessage function to construct messages with a variable number of arguments.
+MessageConstructor constructor;
+String message = constructor.constructMessage("temperature", 25.5, "A&B");
+```
 
-// Example usage with different number of arguments
-String message1 = messageConstructor.constructMessage("Variable1");
-String message2 = messageConstructor.constructMessage("Var1", "Var2", "Var3");
-String message3 = messageConstructor.constructMessage("A", "B", "C", "D", "E");
-Print Messages
-Print the constructed messages.
+A deterministic timestamp can be supplied for tests or externally synchronized protocols:
 
-Serial.println("Constructed Messages:");
-Serial.println(message1);
-Serial.println(message2);
-Serial.println(message3);
+```cpp
+auto message = constructor.constructMessageAt(1000, "status", "ready");
+// @#<1000>#&status&ready#@
+```
 
-Output
-Each constructed message follows the format:
+## Arduino installation
 
-@#<timestamp>#&<arg1>&<arg2>&...&<argN>#@
+Copy this repository into the Arduino libraries directory, install it through PlatformIO, or add it as a Git dependency. The public header is `MessageConstructor.h`.
 
-Where:
-<timestamp> is the epoch timestamp in milliseconds.
-<arg1>, <arg2>, ..., <argN> are the provided arguments separated by "&".
-#@ indicates the end of the message.
+The example sketch is available under `examples/BasicUsage`.
 
-Example Output
+## Native C++ build and tests
 
-Constructed Messages:
-@#<1000>#&Variable1&#@
-@#<2000>#&Var1&Var2&Var3&#@
-@#<3000>#&A&B&C&D&E&#@
+```bash
+cmake -S . -B build
+cmake --build build
+ctest --test-dir build --output-on-failure
+```
 
+The native implementation requires C++11 or newer.
 
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+## Compatibility notes
+
+- Arduino uses `millis()` as the elapsed timestamp source.
+- Native C++ uses `std::chrono::steady_clock` elapsed time.
+- `constructMessageAt()` avoids clock differences and is recommended for tests.
+- Floating-point values use up to six significant digits in native builds.
+
+## License
+
+Released under CC0 1.0 Universal. See `LICENSE`.
